@@ -1,5 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/northsou/public_html/
-    - /bin/cp -R /home/northsou/repositories/Policy-Vault/images $DEPLOYPATH
+    - export DEPLOYPATH=/home/northsou/public_html/nsp_policy_vault/
+    - /bin/cp -R base $DEPLOYPATH
+ 
