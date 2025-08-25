@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<style>
+  /* ensure content doesn’t hide under the fixed footer */
+  .main-content {
+    min-height: calc(100vh - 80px); /* subtract approx footer height */
+    padding-bottom: 80px;           /* same footer height */
+  }
+</style>
+
+<div class="main-content d-flex justify-content-center align-items-center">
+  <div class="container">
+    <h1 class="mb-4 text-center">All Departments</h1>
+    {% if departments %}
+      <div class="row gx-4 gy-4 justify-content-center">
+        {% for dept in departments %}
+          <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-center">{{ dept.department }}</h5>
+                
+                <div class="mt-auto text-center">
+                  <a href="{% url 'department_policies_list' dept.id %}" style="color: rgb(23, 23, 184);">
+                    View Policies
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info text-center">
+        No departments to display.
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

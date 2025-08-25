@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+  <div class="card shadow-sm w-100" style="max-width: 400px;">
+    <div class="card-header text-center bg-primary text-white">
+      <h2 class="mb-0">Login</h2>
+    </div>
+    <div class="card-body p-4">
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        {# Email or Username Field #}
+        <div class="mb-3">
+          {{ form.username.label_tag }}
+          {{ form.username|add_class:"form-control" }}
+          {% for error in form.username.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+
+        {# Password Field #}
+        <div class="mb-4">
+          {{ form.password.label_tag }}
+          {{ form.password|add_class:"form-control" }}
+          {% for error in form.password.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+
+        {# Submit Button #}
+        <div class="d-grid mb-3">
+          <button type="submit" class="btn btn-primary btn-lg">Login</button>
+        </div>
+
+        {# Register Link #}
+        <div class="text-center">
+          <small class="text-muted">
+            Don't have an account?
+            <a href="{% url 'register' %}">Register here</a>
+          </small>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer text-center">
+      <a href="{% url 'index' %}" class="text-muted">&larr; Back to Home</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

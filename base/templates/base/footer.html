@@ -1,0 +1,15 @@
+<footer style="background-color: #03417b; position: fixed; bottom: 0; width: 100%; text-align: center; padding: 10px; font-size: 14px;">
+  <div>
+    &copy;
+    <a href="http://localhost:8000" style="text-decoration: none; color: #000;">Information Technology & Security Compliance | NSPCL</a>
+    
+    {% if request.user.is_authenticated %}
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" style="margin-left: 15px; background: none; border: none; color: #000; cursor: pointer;">Logout</button>
+      </form>
+    {% else %}
+      <a href="{% url 'login' %}" style="margin-left: 15px; color: #000;">Staff Login</a>
+    {% endif %}
+  </div>
+</footer>

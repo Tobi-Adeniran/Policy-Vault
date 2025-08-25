@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>North South Power Company Limited</title>
+  {% load static %}
+  <style>
+    /* Full‑page background with subtle overlay */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.8)),
+        url("{% static 'images/your-bg.jpg' %}") no-repeat center center fixed;
+      background-size: cover;
+      font-family: sans-serif;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      min-height: 70vh;
+    }
+
+    .logo img {
+      max-width: 400px;
+      width: 90%;
+      height: auto;
+      margin-bottom: 2rem;
+    }
+
+    .search-bar {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-bar button {
+      background: none;
+      border: none;
+      padding: 0 1rem;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .actions {
+      margin-top: 1rem;
+    }
+
+    .actions .button {
+      background-color: #4885ed;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .actions .button:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 480px) {
+      .logo img {
+        margin-bottom: 1rem;
+      }
+      .search-bar {
+        flex-direction: column;
+      }
+      .search-bar button {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  {% include 'base/base.html' %}
+  {% block content %}
+  <div class="main">
+    <div class="logo">
+      <img src="{% static 'images/nsp-logo-wb.jpg' %}" alt="NSP Logo">
+    </div>
+    <form action="{% url 'searchbar' %}" method="get" class="search-bar">
+      <input type="text" name="search-area" placeholder="Search departments or policies…">
+      <button type="submit" class="fa fa-search" aria-label="Search"></button>
+    </form>
+    <div class="actions">
+      {% if request.user.is_authenticated %}
+        <!-- e.g. show additional buttons here -->
+      {% else %}
+        <a href="{% url 'login' %}">
+          <button class="button" type="button">Login</button>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  {% endblock %}
+  {% include 'base/footer.html' %}
+</body>
+</html>

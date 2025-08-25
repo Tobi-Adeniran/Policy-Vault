@@ -1,0 +1,72 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DCEAF7;">
+  <div class="container">
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center pe-3" href="{% url 'index' %}" style="color: #000; font-weight: bold;">
+      Home
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <!-- Left / main nav -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item px-2">
+          <a class="nav-link" href="{% url 'dept' %}" style="color: #000;">Departments</a>
+        </li>
+      </ul>
+
+      <!-- Right side: auth area -->
+      <ul class="navbar-nav ms-auto align-items-center">
+        {% if request.user.is_authenticated %}
+          <li class="nav-item d-none d-lg-block me-3">
+            <span class="navbar-text" style="color: #121111; font-size: 0.9rem;">
+              <em>Welcome Back!</em>
+            </span>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userMenu"
+               role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+              <span class="d-none d-md-inline">{{ request.user.get_short_name|default:request.user.username }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form method="post" action="{% url 'logout' %}" class="px-3 py-2">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger w-100">Logout</button>
+                </form>
+              </li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item px-2">
+            <a class="nav-link" href="{% url 'login' %}" style="color: #000;">Staff Login</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<style>
+/* Small tweaks to move names/links from the edges and add breathing room */
+.navbar { padding-top: .45rem; padding-bottom: .45rem; }
+.navbar .container { align-items: center; }
+.navbar-brand { font-weight: 600; gap: .5rem; }
+.navbar-nav .nav-item.px-2 { padding-left: .5rem; padding-right: .5rem; }
+.navbar .dropdown-menu { min-width: 180px; }
+/* make toggler area more comfortable on small screens */
+@media (max-width: 576px){
+  .navbar-brand img { height:24px; }
+  .navbar-nav .nav-link { padding-left: .75rem; padding-right: .75rem; }
+}
+</style>

@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="container my-5">
+  <h1 class="mb-4">Search Results for “{{ search_input }}”</h1>
+
+  {# Policies #}
+  <h3>Policies & Documents</h3>
+  {% if policies %}
+    <ul class="list-group">
+      {% for policy in policies %}
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <strong>{{ policy.title }}</strong>
+              <br>
+              <small class="text-muted">
+                Department: {{ policy.department.department }}
+              </small>
+              {% if policy.summary %}
+                <p class="mt-1 mb-0 text-muted">{{ policy.summary|truncatewords:15 }}</p>
+              {% endif %}
+            </div>
+            <div class="btn-group btn-group-sm">
+              <a href="{{ policy.document.url }}" target="_blank"
+                 class="btn btn-outline-primary">
+                View
+              </a>
+              <a href="{{ policy.document.url }}" download
+                 class="btn btn-outline-secondary">
+                Download
+              </a>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No matching policies or documents.</p>
+  {% endif %}
+</div>
+{% endblock %}
+
+
+  <!-- {# Departments #}
+  <h3>Departments</h3>
+  {% if departments %}
+    <ul class="list-group mb-4">
+      {% for dept in departments %}
+        <li class="list-group-item">
+          <a href="{% url 'dept' %}">{{ dept.department }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No matching departments.</p>
+  {% endif %} -->

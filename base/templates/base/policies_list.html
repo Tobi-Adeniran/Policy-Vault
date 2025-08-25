@@ -1,0 +1,81 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="{% url 'dept' %}" class="btn btn-link">&laquo; Back</a>
+    {% if can_add_policy %}
+      <a href="{% url 'policy_add' department.id %}" class="btn btn-success">
+        + Add Policy
+      </a>
+    {% endif %}
+  </div>
+
+  <h2 class="mb-4">Policies for {{ department.department }}</h2>
+
+  {% if page_obj.object_list %}
+    <ul class="list-group">
+      {% for policy in page_obj.object_list %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>{{ policy.title }}</span>
+          <div>
+            <a href="{{ policy.document.url }}" target="_blank"
+               class="btn btn-sm btn-outline-primary">View</a>
+            <a href="{{ policy.document.url }}" download
+               class="btn btn-sm btn-outline-secondary ms-2">Download</a>
+            {% if can_add_policy %}
+              <form method="post"
+                    action="{% url 'policy_delete' policy.id %}"
+                    style="display:inline"
+                    onsubmit="return confirm('Are you sure you want to delete this policy?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger ms-2">
+                  Delete
+                </button>
+              </form>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {# pagination controls #}
+    {% if is_paginated %}
+      <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                &laquo;
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+          {% endif %}
+
+          {% for num in paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                &raquo;
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+  {% else %}
+    <div class="alert alert-warning text-center">No policies yet.</div>
+  {% endif %}
+</div>
+{% endblock %}
